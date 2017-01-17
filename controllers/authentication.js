@@ -6,9 +6,8 @@ const config = require('../config');
 
 function tokenForUser(user) {
 	const timestamp = new Date().getTime();
-	return jwt.encode({ sub: user.id, iat: timestamp }, config.JWT_SECRET)
+	return jwt.encode({ sub: user.id, iat: timestamp, exp: timestamp + 10000 }, config.JWT_SECRET)
 }
-
 
 exports.signup = (req, res, next) => {
 	const { email: rawEmail, password } = req.body;
@@ -33,7 +32,9 @@ exports.signup = (req, res, next) => {
 		}).then(createdUser => {
 			// Respond to request indicating the user was created
 			res.send({ token: tokenForUser(createdUser) });
-		});
+		}).catch(err => {
+			res.status(400).send({ error: 'Invalid email or password' });
+		})
 	});
 };
 

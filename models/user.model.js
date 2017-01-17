@@ -15,7 +15,10 @@ function UserModel(sequelize, DataTypes) {
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+	      len: [6, 100]
+      }
     },
   }, {
     tableName: 'users',
@@ -40,7 +43,7 @@ function UserModel(sequelize, DataTypes) {
 
 function hashPasswordHook(user, options, cb) {
   if (!user.changed('password')) {
-    cb('User password has not changed');
+    return cb('User password has not changed');
   }
 
   // generate salt

@@ -39,6 +39,7 @@ const jwtOptions = {
 
 const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
 	// See if user ID in the payload (decoded jwt) exists in our users table
+	// TODO: Invalidate token based on exp property(?)
 	User.findById(payload.sub).then((user) => {
 		if (!user) {
 			done(null, false);
@@ -47,7 +48,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
 		}
 	}).catch(err => {
 		done(err, false);
-	})
+	});
 });
 
 // Tell passport to use the strategies
