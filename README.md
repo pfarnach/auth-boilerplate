@@ -14,3 +14,5 @@ module.exports = {
 }
 ```
 ... with the appropriate values filled in.
+
+Start up the server with `yarn run start` or `npm run start`.

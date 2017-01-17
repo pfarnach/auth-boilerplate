@@ -15,7 +15,6 @@ function UserModel(sequelize, DataTypes) {
     },
     password: {
       type: DataTypes.STRING,
-      field: 'password', // Will result in an attribute that is firstName when user facing but first_name in the database
       allowNull: false
     },
   }, {
