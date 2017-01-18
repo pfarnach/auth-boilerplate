@@ -4,9 +4,16 @@ const User = require('../models').User;
 const config = require('../config');
 
 
+// Generate token from user ID
 function tokenForUser(user) {
 	const timestamp = new Date().getTime();
-	return jwt.encode({ sub: user.id, iat: timestamp, exp: timestamp + 10000 }, config.JWT_SECRET)
+	const tokenOptions = {
+		sub: user.id,
+		iat: timestamp,
+		exp: timestamp + config.token.DURATION
+	}
+
+	return jwt.encode(tokenOptions, config.token.JWT_SECRET)
 }
 
 exports.signup = (req, res, next) => {
@@ -28,7 +35,8 @@ exports.signup = (req, res, next) => {
 		// If a user with an email does NOT exist, create and save user record
 		User.create({
 			email,
-			password
+			password,
+			authMethod: 'LOCAL'
 		}).then(createdUser => {
 			// Respond to request indicating the user was created
 			res.send({ token: tokenForUser(createdUser) });

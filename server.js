@@ -18,7 +18,7 @@ router(app);
 
 // Init tables
 models.sequelize.sync().then(() => {
-   // Init server
+   // Run server
 	app.listen(port, () => {
 		console.log(`Server listening on port ${port}`);
 	});

@@ -6,7 +6,7 @@ const config = require('../config');
 
 
 // Init db
-const sequelize = new Sequelize(config.DB_URI);
+const sequelize = new Sequelize(config.db.URI);
 
 const db = {};
 

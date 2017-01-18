@@ -15,11 +15,22 @@ function UserModel(sequelize, DataTypes) {
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
       validate: {
 	      len: [6, 100]
       }
     },
+    name: DataTypes.STRING,
+    fbID: DataTypes.STRING,
+    fbToken: DataTypes.STRING,
+    authMethod: {
+			type: DataTypes.STRING,
+			allowNull: false
+    },
+    status: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			defaultValue: 'ACTIVE'
+    }
   }, {
     tableName: 'users',
     instanceMethods: {
@@ -43,7 +54,7 @@ function UserModel(sequelize, DataTypes) {
 
 function hashPasswordHook(user, options, cb) {
   if (!user.changed('password')) {
-    return cb('User password has not changed');
+    return cb(null, options);
   }
 
   // generate salt
