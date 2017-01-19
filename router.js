@@ -10,9 +10,14 @@ const requireFbSignin = passport.authenticate('facebook', { session: false });
 
 
 module.exports = (app) => {
+	// Generic unprotected route
+	app.get('/', (req, res) => {
+		res.send({ status: 'This is not a protected route' });
+	});
+
 	// Generic protected route
-	app.get('/', requireAuth, (req, res) => {
-		res.send({ status: 'You got this response because you are authenticated' });
+	app.get('/protected', requireAuth, (req, res) => {
+		res.send({ status: 'You are authorized to see this route' });
 	});
 
 	// Local signup/signin
